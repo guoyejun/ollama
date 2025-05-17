@@ -116,9 +116,14 @@ COPY --from=build /bin/ollama /bin/ollama
 
 FROM ubuntu:20.04
 RUN apt-get update \
-    && apt-get install -y ca-certificates \
-    && apt-get clean \
+    && apt-get install -y ca-certificates vim python3 python3-pip 
+RUN apt-get install -y libgl1-mesa-glx
+#RUN apt-get install -y libopencv-dev
+RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
 COPY --from=archive /bin /usr/bin
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 COPY --from=archive /lib/ollama /usr/lib/ollama
